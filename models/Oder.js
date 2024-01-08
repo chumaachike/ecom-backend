@@ -1,16 +1,38 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-// Define a schema for your data
 const Schema = mongoose.Schema;
-const cartSchema = new Schema({
-  order_id: Number,
-  user_id: Number,
-  total_price: Number,
-  status: String,
+const orderSchema = new Schema({
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'User ID is required']
+  },
+  total_price: {
+    type: Number,
+    required: [true, 'Total price is required'],
+    min: [0, 'Total price cannot be negative']
+  },
+  order_status: {
+    type: String,
+    required: [true, 'Order status is required'],
+    enum: ['pending', 'completed', 'cancelled', 'processing', 'shipped'], 
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  shipping_address: {
+    type: Schema.Types.ObjectId,
+    ref: 'Address',
+    required: [true, 'Shipping address is required']
+  },
+  billing_address: {
+    type: Schema.Types.ObjectId,
+    ref: 'Address',
+    required: [true, 'Billing address is required']
+  },
 });
 
-// Create a model based on the schema
-const cartModel = mongoose.model('Example', cartSchema);
+const orderModel = mongoose.model('Order', orderSchema);
 
-// Export the model to use it in other parts of your application
-module.exports = cartModel;
+export default orderModel;

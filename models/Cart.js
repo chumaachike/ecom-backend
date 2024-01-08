@@ -1,14 +1,25 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-// Define a schema for your data
 const Schema = mongoose.Schema;
 const cartSchema = new Schema({
-  cart_id: Number,
-  user_id: Number,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'User reference is required']
+  },
+  session_id: {
+    type: String,
+    required: [true, 'Session ID is required']
+  },
+  total_price: {
+    type: Number,
+    min: [0, 'Total price cannot be negative'],
+    default: 0 
+  },
+},{
+  timestamps: true,
 });
 
-// Create a model based on the schema
-const cartModel = mongoose.model('Example', cartSchema);
+const cartModel = mongoose.model('Cart', cartSchema);
 
-// Export the model to use it in other parts of your application
-module.exports = cartModel;
+export default cartModel;
