@@ -38,7 +38,7 @@ class ProductController {
     }
     
     async findProductsByName(req, res){
-        const { name } = req.body;
+        const name  = req.query.name;
         try {
             // Using a regular expression for a flexible match
             const regex = new RegExp(name, 'i'); // 'i' for case-insensitive
