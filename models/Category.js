@@ -36,6 +36,6 @@ const categorySchema = new Schema({
     timestamps: true // Automatically add createdAt and updatedAt fields
 });
 
-const Category = mongoose.model('Category', categorySchema);
+const CategoryModel = mongoose.model('Category', categorySchema);
 
-export default Category;
+export default CategoryModel;

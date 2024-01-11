@@ -31,6 +31,10 @@ const productSchema = new Schema({
     min: [0, 'Product quantity cannot be negative'],
     default: 0
   },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+  },
 });
 
 

@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import userModel from '../models/User.js';
 import config from '../config/config.js';

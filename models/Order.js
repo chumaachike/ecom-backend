@@ -33,6 +33,19 @@ const orderSchema = new Schema({
   },
 });
 
+orderSchema.methods.updateOrder = async function (updateData) {
+  if (this.status === 'shipped') {
+    throw new Error('Cannot update order as it has already been shipped');
+  }
+
+  // Apply the updates
+  for (const key in updateData) {
+    this[key] = updateData[key];
+  }
+
+  return this.save();
+};
+
 const orderModel = mongoose.model('Order', orderSchema);
 
 export default orderModel;

@@ -38,13 +38,30 @@ class ProductController {
     }
     
     async findProductsByName(req, res){
-        const {name} = req.body;
+        const { name } = req.body;
         try {
-            const product = await productModel.find({name})
+            // Using a regular expression for a flexible match
+            const regex = new RegExp(name, 'i'); // 'i' for case-insensitive
+            const products = await productModel.find({ name: regex });
+    
+            if (products && products.length > 0) {
+                res.status(200).send(products);
+            } else {
+                res.status(400).send('No product was found');
+            }
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    }
+
+    async getProductById (req, res){
+        const {id} = req.params;
+        try{
+            const product = await productModel.findById(id);
             if (product){
                 res.status(200).send(product);
             }else{
-                res.status(400).send('No product was found');
+                res.status(400).send("Product not found");
             }
         }catch(err){
             res.status(500).send(err.message);
