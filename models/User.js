@@ -38,3 +38,7 @@ userSchema.pre('save', function (next) {
 const userModel = mongoose.model('User', userSchema);
 
 export default userModel;
+
+userModel.ensureIndexes().catch(error => {
+  console.error('Index creation failed:', error);
+});

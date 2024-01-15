@@ -10,10 +10,21 @@ class AuthController {
             const userData = new userModel({ username, email, password });
 
             await userData.save();
-            const token = jwt.sign({ userId: userData._id }, config.jwtSecret, { expiresIn: '1h' });
-            res.json({ token });
-        } catch (err) {
-            res.status(500).send(err);
+            const userResponse = {
+                id: userData._id,
+                username: userData.username,
+                email: userData.email,
+                
+            };
+            const token = jwt.sign({ userId: userResponse.id }, config.jwtSecret, { expiresIn: '24h' });
+            req.session.jwt = token;
+            res.status(200).json(userResponse);
+        } catch (error) {
+            if (error.code === 11000) { // Duplicate key error
+                res.status(500).json({ error: 'Error: A user with the same username or email already exists.' });
+            } else {
+                res.status(500).json({ error: error.message });
+            }
         }
     }
 
@@ -29,12 +40,27 @@ class AuthController {
             if (!isMatch) {
                 return res.status(400).send('Invalid password');
             }
-            const token = jwt.sign({ userId: user._id }, config.jwtSecret, { expiresIn: '1h' });
-
-            res.json({ token });
+            const userResponse = {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                
+            };
+            const token = jwt.sign({ userId: userResponse.id }, config.jwtSecret, { expiresIn: '24h' });
+            req.session.jwt = token;
+            res.status(200).json( userResponse);
         } catch (error) {
             res.status(500).send(error.message);
         }
+    }
+
+    async logout(req, res) {
+        try {
+           const hhh = await req.session.destroy();
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+
     }
 }
 

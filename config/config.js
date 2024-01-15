@@ -6,6 +6,7 @@ const config = {
   port: process.env.PORT || 3001,
   dbUri: process.env.DB_URI,
   jwtSecret: process.env.JWT_SECRET,
+  sessionSecret: process.env.SESSION_SECRET,
   // ...other configurations
 };
 

@@ -1,27 +1,28 @@
 import mongoose from 'mongoose'
 import orderModel from "../models/Order";
+import { isLoggedIn } from '../middlewares/authMiddleware';
 
 class OrderController {
     async addOrder(req, res) {
         try {
-            const { user_id, total_price, order_status, shipping_address, billing_address } = req.body;
-            const newOrder = new orderModel({
-                user_id: mongoose.Types.ObjectId(user_id),
-                total_price,
-                order_status,
-                shipping_address: mongoose.Types.ObjectId(shipping_address),
-                billing_address: mongoose.Types.ObjectId(billing_address)
-            });
-            const savedOrder = await newOrder.save();
-            res.status(200).json({
-                message: 'Order created successfully',
-                order: savedOrder
-            })
+            // const { user_id, total_price, order_status, shipping_address, billing_address } = req.body;
+            // const newOrder = new orderModel({
+            //     user_id: mongoose.Types.ObjectId(user_id),
+            //     total_price,
+            //     order_status,
+            //     shipping_address: mongoose.Types.ObjectId(shipping_address),
+            //     billing_address: mongoose.Types.ObjectId(billing_address)
+            // });
+            // const savedOrder = await newOrder.save();
+            // res.status(200).json({
+            //     message: 'Order created successfully',
+            //     order: savedOrder
+          //  })
         } catch (error) {
-            res.status(400).json({
-                message: 'Error creating order',
-                error: error.message
-            })
+            // res.status(400).json({
+            //     message: 'Error creating order',
+            //     error: error.message
+            // })
         }
     }
     async updateOrder(req, res) {
